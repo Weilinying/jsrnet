@@ -5,6 +5,9 @@ from PIL import Image
 from torch.utils import data
 from torchvision import transforms
 from dataloaders import custom_transforms as tr
+from mypath import Path
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True  # 允许加载损坏的图像
 
 class CityscapesSegmentation_2Class(data.Dataset):
     NUM_CLASSES = 2 
@@ -63,9 +66,7 @@ class CityscapesSegmentation_2Class(data.Dataset):
     def __getitem__(self, index):
 
         img_path = self.files[self.split][index].rstrip()
-        lbl_path = os.path.join(self.annotations_base,
-                                img_path.split(os.sep)[-2],
-                                os.path.basename(img_path)[:-15] + 'gtFine_labelIds.png')
+        lbl_path = os.path.join(self.annotations_base, img_path.split(os.sep)[-2], os.path.basename(img_path)[:-15] + 'gtFine_labelIds.png')
 
         _img = Image.open(img_path).convert('RGB')
         _tmp = np.array(Image.open(lbl_path), dtype=np.uint8)
@@ -112,14 +113,14 @@ if __name__ == '__main__':
     
     cfg = CN()
     cfg.INPUT = CN()
-    cfg.INPUT.BASE_SIZE = 513
-    cfg.INPUT.CROP_SIZE = 513
+    cfg.INPUT.BASE_SIZE = 640
+    cfg.INPUT.CROP_SIZE = 640
     cfg.AUG = CN()
     cfg.AUG.RANDOM_CROP_PROB = 0.5
 
-    cityscapes_train = CityscapesSegmentation_2Class(cfg, root="path/to/cityscapes/", split='train')
+    cityscapes_train = CityscapesSegmentation_2Class(cfg, Path.dataset_root_dir('cityscapes_2class'), split='train')
 
-    dataloader = DataLoader(cityscapes_train, batch_size=2, shuffle=True, num_workers=2)
+    dataloader = DataLoader(cityscapes_train, batch_size=8, shuffle=True, num_workers=18)
 
     for ii, sample in enumerate(dataloader):
         for jj in range(sample["image"].size()[0]):

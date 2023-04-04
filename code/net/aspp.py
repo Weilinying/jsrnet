@@ -4,6 +4,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from net.sync_batchnorm.batchnorm import SynchronizedBatchNorm2d
 
+# ASPP（Atrous Spatial Pyramid Pooling）。
+# ASPP是一种有效的图像特征提取方法，通常用于语义分割任务，如DeepLab系列模型中。它通过使用不同扩张率（dilation rate）的空洞卷积（atrous convolution），能够捕获多尺度的上下文信息，而不增加计算成本或参数数量。
+
 class _ASPPModule(nn.Module):
     def __init__(self, inplanes, planes, kernel_size, padding, dilation, BatchNorm):
         super(_ASPPModule, self).__init__()

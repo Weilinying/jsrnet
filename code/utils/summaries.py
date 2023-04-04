@@ -37,10 +37,10 @@ class TensorboardSummary(object):
 
     def visualize_image(self, writer, dataset, image, target, output, global_step, epoch, epoch_id, validation=False):
         if isinstance(output, dict):
-            grid_image = make_grid(image[:3].clone().cpu().data, 3, normalize=True)
-            writer.add_image('Image', grid_image, global_step)
-            grid_image = make_grid(output["anomaly_score"][:3].clone().cpu().data, 3, normalize=False, range=(0, 1))
-            writer.add_image('Anomaly score', grid_image, global_step)
+            # grid_image = make_grid(image[:3].clone().cpu().data, 3, normalize=True)
+            # writer.add_image('Image', grid_image, global_step)
+            # grid_image = make_grid(output["anomaly_score"][:3].clone().cpu().data, 3, normalize=False, range=(0, 1))
+            # writer.add_image('Anomaly score', grid_image, global_step)
             
             segm_map = (255*decode_seg_map_sequence(torch.max(output["segmentation"], 1)[1].detach().cpu().numpy(), dataset=dataset).numpy()).astype(np.uint8)
             segm_masked = output.get("segmentation_masked", None)

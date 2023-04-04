@@ -1,5 +1,5 @@
-# 11773
-UG:
+# 26637
+AUG:
   COLOR_AUG: 0.25
   RANDOM_CROP_PROB: 0.5
   SCALE_MAX: 2.0
@@ -7,27 +7,28 @@ UG:
 DATASET:
   FT: false
   TEST: LaF
-  TRAIN: cityscapes_2class
+  TRAIN: RO
   VAL: LaF
   PATH:
-    CITYSCAPES: /root/autodl-tmp/jsrnet/dataset/cityscapes
-    LAF: /root/autodl-tmp/jsrnet/dataset/lost_and_found
+    CITYSCAPES: /root/autodl-tmp/jsrnet/datasets/cityscapes
+    LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
+    ROAD0BSTACLE: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
 EXPERIMENT:
   EPOCHS: 200
   EVAL_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
-  NAME: 'masked_experiment_L_C_896'
+  NAME: 'masked_experiment_LaF_C_640'
   OUT_DIR: /root/autodl-tmp/records/masked_jsrnet/training/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-#  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_L_C_896/checkpoints/checkpoint-latest.pth
-  RESUME_CHECKPOINT: null
+  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_LaF_C_640/checkpoints/checkpoint-latest.pth
+#  RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
 INPUT:
-  BASE_SIZE: 896
-  BATCH_SIZE_TEST: 2
-  BATCH_SIZE_TRAIN: 2
-  CROP_SIZE: 896
+  BASE_SIZE: 640
+  BATCH_SIZE_TEST: 4
+  BATCH_SIZE_TRAIN: 4
+  CROP_SIZE: 640
   NORM_MEAN:
   - 0.485
   - 0.456
@@ -48,7 +49,7 @@ MODEL:
   OUT_STRIDE: 16
   RECONSTRUCTION:
     LATENT_DIM: 4
-    SEGM_MODEL: /root/autodl-tmp/jsrnet/checkpoint-segmentation.pth
+    SEGM_MODEL: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-segmentation.pth
     SEGM_MODEL_NCLASS: 19
     SKIP_CONN: false
     SKIP_CONN_DIM: 32
@@ -62,6 +63,6 @@ OPTIMIZER:
 SYSTEM:
   GPU_IDS:
   - 0
-  NUM_CPU: 16
+  NUM_CPU: 18
   RNG_SEED: 42
   USE_GPU: True

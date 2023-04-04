@@ -85,7 +85,7 @@ class AnomalyEvaluator(Evaluator):
         self.cmat = np.zeros(shape=[self.quantization, 2, 2])  
     
     def create_roi(self, gt_label):
-        roi = (gt_label != self.ignore_label).astype(np.bool)
+        roi = (gt_label != self.ignore_label).astype(np.bool_)
         # TODO limit roi to regions around road, so the metric is focused on anomalies on the road
         return roi
 
@@ -120,7 +120,7 @@ class AnomalyEvaluator(Evaluator):
             ]).transpose(2, 0, 1)
         
         if area > 0:
-            cmat = cmat.astype(np.float64) / area
+            cmat = cmat.astype(np.float32) / area
         else:
             cmat[:] = 0
 
