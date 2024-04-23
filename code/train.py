@@ -148,9 +148,12 @@ class Trainer(object):
         tbar = tqdm(self.val_loader, desc='\r')  # 创建进度条
         test_loss = 0.0  # 初始化验证损失
         num_img_val = len(self.val_loader)  # 获取验证数据的总数
+
         with torch.no_grad():
             for i, sample in enumerate(tbar):  # 遍历验证数据
                 image, target = sample['image'], sample['label']  # 获取图像和标签
+                # 调整 target 张量以确保它是3D的
+                target = target.squeeze(1)  # 移除通道维度，假设它是在维度1
                 if cfg.SYSTEM.USE_GPU:
                     image, target = image.to(self.device), target.to(self.device)  # 将数据移动到指定的设备
                 with torch.no_grad():  # 禁止计算梯度

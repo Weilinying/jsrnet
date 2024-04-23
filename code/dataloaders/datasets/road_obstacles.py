@@ -42,7 +42,7 @@ class RoadObstacle21(data.Dataset):
 
         images_root = os.path.join(self.root, 'images')
         labels_root = os.path.join(self.root, 'labels_masks')
-        self.images = os.listdir(images_root)
+        self.images = [os.path.join(images_root, f) for f in os.listdir(images_root) if 'validation' in f]
 
         # 根据数据模式，筛选出相应的图像和标签文件
         if self.split == 'test':
@@ -52,15 +52,16 @@ class RoadObstacle21(data.Dataset):
             self.labels = [''] * len(self.images)
         elif self.split == 'val':
             # 仅加载验证样本的图像和标签
-            self.labels = [os.path.join(images_root, img_path[:-5] + '_labels_semantic.png') for img_path in self.images
-                           if 'validation' in img_path]
+            self.labels = [os.path.join(labels_root, os.path.splitext(f)[0] + '_labels_semantic.png')
+                                         for f in os.listdir(images_root) if 'validation' in f]
             self.images = [os.path.join(images_root, img_path) for img_path in self.images if 'validation' in img_path]
         elif self.split == 'all':
             # 加载所有样本的图像和标签
             self.labels = []
             for img_path in self.images:
                 if 'validation' in img_path:
-                    self.labels.extend([os.path.join(self.root, img_path[:-5] + '_labels_semantic.png')])
+                    label_path = os.path.join(labels_root, os.path.splitext(img_path)[0] + '_labels_semantic.png')
+                    self.labels.append(label_path)  # 添加到标签列表
                 else:
                     self.labels.extend([''])
 
@@ -89,39 +90,25 @@ class RoadObstacle21(data.Dataset):
 
     def __getitem__(self, index):
         # 根据索引获取图像和标签
-        img_path = self.images[index]
-        image = self.read_webp(img_path)
+        image = self.read_webp(self.images[index])
 
-        # 检查当前样本是否有标签，如果没有则使用虚拟标签
-        label_path = self.labels[index] if self.labels[index] != '' else None
-        if label_path:
-            label = self.read_image(label_path)
-            label = label[:, :, 0]  # 通常标签是单通道的，这里取第一个通道
+        if 'validation' in self.images[index]:
+            label = self.read_image(self.labels[index])
         else:
-            # 如果没有标签文件，创建一个全零的标签数组
-            label = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
+            label = np.zeros_like(image)
 
-        # print("Image size:", image.shape)  # 打印图像尺寸
-        # print("Label size:", label.shape)  # 打印Label尺寸
-        # print("Image type:", type(image))
-        # print("Image content:", image)
-        # print("Label type:", type(label))
-        # print("Label content:", label)
-
-        #
-        # # 这里加入尺寸检查
-        # assert image.shape[:2] == label.shape[:2], "Image and label must be the same size"
+        label = label[:, :, 0]
 
         # 应用图像和标签的转换
         # 应用图像的转换
-        if self.label_transform is not None:
-            image = self.label_transform(image)  # 确保 transform_ts 适用于图像
+        if self.image_transform is not None:
+            image = self.image_transform(image)  # 确保 transform 适用于图像
 
             # 应用标签的转换，这里只做简单的转换，确保尺寸一致
-        if self.label_transform is not None and label_path:
+        if self.label_transform is not None :
             label = self.label_transform(label)  # label_transform 应只包含尺寸调整和转换为张量
 
-        return image, torch.tensor(label, dtype=torch.long)
+        return {'image': image, 'label': label}
 
 
     def __len__(self):
@@ -130,8 +117,11 @@ class RoadObstacle21(data.Dataset):
     @staticmethod
     def read_image(path):
 
-        img = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
-
+        img = cv2.imread(path)
+        # print(f"Loaded image from {path}: shape={img.shape if img is not None else 'None'}")
+        if img is None:
+            raise FileNotFoundError(f"Unable to load image at path: {path}")
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         return img
 
     @staticmethod
