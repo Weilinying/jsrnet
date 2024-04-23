@@ -20,7 +20,7 @@ EXPERIMENT:
   NAME: 'masked_experiment_LaF_RO'
   OUT_DIR: /root/autodl-tmp/records/masked_jsrnet/training/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-#  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_LaF_C_640/checkpoints/checkpoint-latest.pth
+#  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_LaF_RO/checkpoints/checkpoint-latest.pth
   RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
@@ -54,6 +54,7 @@ MODEL:
     SKIP_CONN: false
     SKIP_CONN_DIM: 32
   SYNC_BN: false
+  PRETRAINED: "/root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth"
 OPTIMIZER:
   LR: 0.001
   LR_SCHEDULER: poly

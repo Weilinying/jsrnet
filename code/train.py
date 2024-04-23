@@ -40,7 +40,13 @@ class Trainer(object):
         kwargs = {'cfg': cfg, 'num_classes': self.nclass}  # 网络参数
         model_module = importlib.import_module("net.models")  # 动态导入模型模块
         self.model = getattr(model_module, cfg.MODEL.NET)(**kwargs)  # 实例化模型
-        
+
+        # Load pretrained weights if available
+        if cfg.MODEL.PRETRAINED:
+            checkpoint = torch.load(cfg.MODEL.PRETRAINED, map_location='cpu')
+            self.model.load_state_dict(checkpoint['state_dict'], strict=False)
+            print(f"Loaded pretrained weights from '{cfg.MODEL.PRETRAINED}'")
+
         # Define Optimizer
         train_params = []
         params1x = self.model.get_1x_lr_params()  # 正常学习率的参数

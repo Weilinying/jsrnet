@@ -121,6 +121,7 @@ _C.MODEL.RECONSTRUCTION.SEGM_MODEL = r"D:\SoftwareEngineer\graduation_project\JS
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL_NCLASS = 19  # 19 for cityscapes 分割模型的类别数
 _C.MODEL.RECONSTRUCTION.SKIP_CONN = False  # 是否使用跳跃连接
 _C.MODEL.RECONSTRUCTION.SKIP_CONN_DIM = 32  # 跳跃连接维度
+_C.MODEL.PRETRAINED = r"D:\SoftwareEngineer\graduation_project\JSRNet\checkpoint-best.pth"
 
 # LOSS部分：损失函数相关配置
 _C.LOSS = CN()
