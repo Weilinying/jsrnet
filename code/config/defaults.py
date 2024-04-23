@@ -148,8 +148,8 @@ _C.INPUT.BASE_SIZE = 512
 _C.INPUT.CROP_SIZE = 512
 _C.INPUT.NORM_MEAN = [0.485, 0.456, 0.406]  # mean for the input image to the net (image -> (0, 1) -> mean/std)
 _C.INPUT.NORM_STD = [0.229, 0.224, 0.225]   # std for the input image to the net (image -> (0, 1) -> mean/std)
-_C.INPUT.BATCH_SIZE_TRAIN = 2           # None = Auto set based on training dataset
-_C.INPUT.BATCH_SIZE_TEST = 2             # None = Auto set based on training batch size
+_C.INPUT.BATCH_SIZE_TRAIN = 8           # None = Auto set based on training dataset
+_C.INPUT.BATCH_SIZE_TEST = 8             # None = Auto set based on training batch size
 
 _C.AUG = CN()
 _C.AUG.RANDOM_CROP_PROB = 0.5               # prob that random polygon (anomaly) will be cut from image vs. random noise
@@ -173,7 +173,7 @@ _C.DATASET.FT = False                       # flag if we are finetuning
 _C.DATASET.PATH = CN()
 _C.DATASET.PATH.CITYSCAPES=r'D:\SoftwareEngineer\graduation_project\datasets\cityscapes'
 _C.DATASET.PATH.LAF=r'D:\SoftwareEngineer\graduation_project\datasets\lost_and_found'
-_C.DATASET.PATH.RO = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
+_C.DATASET.PATH.ROAD_OBSTACLE = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
 
 
 def get_cfg_defaults():

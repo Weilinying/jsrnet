@@ -12,6 +12,7 @@ DATASET:
   PATH:
     CITYSCAPES: /root/autodl-tmp/jsrnet/dataset/cityscapes
     LAF: /root/autodl-tmp/jsrnet/dataset/lost_and_found
+    ROAD_OBSTACLE: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
 EXPERIMENT:
   EPOCHS: 200
   EVAL_INTERVAL: 1

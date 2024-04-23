@@ -194,6 +194,10 @@ if __name__ == "__main__":
     parser.add_argument('--gpu_ids', type=str, nargs='*', default=None, help='ids of gpus to used for training')  # 添加用于训练的GPU ID的命令行参数
     args = parser.parse_args()  # 解析命令行参数
 
+    # print(f"Config file path: {args.exp_cfg}")
+    # with open(args.exp_cfg, 'r') as cfg_file:
+    #     print(cfg_file.read())
+
     if args.exp_cfg is not None and os.path.isfile(args.exp_cfg):  # 如果提供了实验配置文件，则合并配置
         cfg.merge_from_file(args.exp_cfg)
 
