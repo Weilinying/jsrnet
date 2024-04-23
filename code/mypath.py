@@ -6,6 +6,8 @@ class Path(object):
             return str(cfg.DATASET.PATH.CITYSCAPES)     # folder that contains leftImg8bit/
         if dataset == 'LaF':
             return str(cfg.DATASET.PATH.LAF)     # folder that contains leftImg8bit/
+        if dataset == 'RO':
+            return str(cfg.DATASET.PATH.RO)
         else:
             print('Dataset {} not available.'.format(dataset))
             raise NotImplementedError

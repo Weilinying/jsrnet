@@ -374,7 +374,7 @@ class Resize(object):
 
     def __call__(self, sample):
         img, mask = sample["image"], sample["label"]
-        assert img.size == mask.size
+        assert img.size[:2] == mask.size
         w, h = img.size
         if (w == h and w == self.size):
             return {'image': img,

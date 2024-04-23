@@ -36,6 +36,7 @@ class LR_Scheduler(object):
             assert lr_step
         self.lr_step = lr_step
         self.iters_per_epoch = iters_per_epoch
+
         self.N = num_epochs * iters_per_epoch
         self.epoch = -1
         self.warmup_iters = warmup_epochs * iters_per_epoch

@@ -6,9 +6,9 @@ AUG:
   SCALE_MIN: 0.5
 DATASET:
   FT: false
-  TEST: LaF
-  TRAIN: RO
-  VAL: LaF
+  TEST: RO
+  TRAIN: LaF
+  VAL: RO
   PATH:
     CITYSCAPES: /root/autodl-tmp/jsrnet/datasets/cityscapes
     LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
@@ -17,18 +17,18 @@ EXPERIMENT:
   EPOCHS: 200
   EVAL_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
-  NAME: 'masked_experiment_LaF_C_640'
+  NAME: 'masked_experiment_LaF_RO'
   OUT_DIR: /root/autodl-tmp/records/masked_jsrnet/training/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_LaF_C_640/checkpoints/checkpoint-latest.pth
-#  RESUME_CHECKPOINT: null
+#  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_LaF_C_640/checkpoints/checkpoint-latest.pth
+  RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
 INPUT:
-  BASE_SIZE: 640
-  BATCH_SIZE_TEST: 4
-  BATCH_SIZE_TRAIN: 4
-  CROP_SIZE: 640
+  BASE_SIZE: 512
+  BATCH_SIZE_TEST: 8
+  BATCH_SIZE_TRAIN: 8
+  CROP_SIZE: 512
   NORM_MEAN:
   - 0.485
   - 0.456

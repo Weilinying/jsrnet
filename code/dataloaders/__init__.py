@@ -1,4 +1,4 @@
-from dataloaders.datasets import cityscapes, cityscapes_2class, lostandfound 
+from dataloaders.datasets import cityscapes, cityscapes_2class, lostandfound, road_obstacles
 from torch.utils.data import DataLoader
 from mypath import Path
 
@@ -21,6 +21,8 @@ def make_data_loader(cfg, **kwargs):
         val_set = cityscapes_2class.CityscapesSegmentation_2Class(cfg, root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val')
     elif cfg.DATASET.VAL == 'LaF':
         val_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
+    elif cfg.DATASET.VAL == 'RO':
+        val_set = road_obstacles.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val')
     else:
         raise NotImplementedError
 
@@ -31,6 +33,8 @@ def make_data_loader(cfg, **kwargs):
         test_set = cityscapes_2class.CityscapesSegmentation_2Class(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     elif cfg.DATASET.TEST == 'LaF':
         test_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
+    elif cfg.DATASET.TEST == 'RO':
+        test_set = road_obstacles.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     else:
         raise NotImplementedError
 

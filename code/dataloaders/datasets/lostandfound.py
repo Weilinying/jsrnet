@@ -131,7 +131,7 @@ if __name__ == '__main__':
     cityscapes_train = LostAndFound(cfg, Path.dataset_root_dir('LaF'), split='train')
 
     # 创建DataLoader
-    dataloader = DataLoader(cityscapes_train, batch_size=8, shuffle=True, num_workers=18)
+    dataloader = DataLoader(cityscapes_train, batch_size=8, shuffle=True, num_workers=4)
 
     # 遍历数据集并显示图像及其分割图
     for ii, sample in enumerate(dataloader):
