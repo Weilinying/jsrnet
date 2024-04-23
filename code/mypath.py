@@ -6,7 +6,7 @@ class Path(object):
             return str(cfg.DATASET.PATH.CITYSCAPES)     # folder that contains leftImg8bit/
         if dataset == 'LaF':
             return str(cfg.DATASET.PATH.LAF)     # folder that contains leftImg8bit/
-        if dataset == 'RO':
+        if dataset == 'OT':
             return str(cfg.DATASET.PATH.ROAD_OBSTACLE)
         else:
             print('Dataset {} not available.'.format(dataset))

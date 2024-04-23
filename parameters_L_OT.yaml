@@ -6,13 +6,13 @@ AUG:
   SCALE_MIN: 0.5
 DATASET:
   FT: false
-  TEST: RO
+  TEST: OT
   TRAIN: LaF
-  VAL: RO
+  VAL: OT
   PATH:
     CITYSCAPES: /root/autodl-tmp/jsrnet/datasets/cityscapes
     LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
-    ROAD_OBSTACLE: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
+    OBSTACLE_TRACK: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
 EXPERIMENT:
   EPOCHS: 200
   EVAL_INTERVAL: 1

@@ -174,7 +174,7 @@ _C.DATASET.FT = False                       # flag if we are finetuning
 _C.DATASET.PATH = CN()
 _C.DATASET.PATH.CITYSCAPES=r'D:\SoftwareEngineer\graduation_project\datasets\cityscapes'
 _C.DATASET.PATH.LAF=r'D:\SoftwareEngineer\graduation_project\datasets\lost_and_found'
-_C.DATASET.PATH.ROAD_OBSTACLE = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
+_C.DATASET.PATH.OBSTACLE_TRACK = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
 
 
 def get_cfg_defaults():
