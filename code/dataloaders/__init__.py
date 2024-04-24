@@ -21,7 +21,7 @@ def make_data_loader(cfg, **kwargs):
         val_set = cityscapes_2class.CityscapesSegmentation_2Class(cfg, root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val')
     elif cfg.DATASET.VAL == 'LaF':
         val_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
-    elif cfg.DATASET.VAL == 'RO':
+    elif cfg.DATASET.VAL == 'OT':
         val_set = obstacles_track.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val')
     else:
         raise NotImplementedError
@@ -33,8 +33,8 @@ def make_data_loader(cfg, **kwargs):
         test_set = cityscapes_2class.CityscapesSegmentation_2Class(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     elif cfg.DATASET.TEST == 'LaF':
         test_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
-    elif cfg.DATASET.TEST == 'RO':
-        test_set = obstacles_track.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
+    elif cfg.DATASET.TEST == 'OT':
+        test_set = obstacles_track.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
     else:
         raise NotImplementedError
 

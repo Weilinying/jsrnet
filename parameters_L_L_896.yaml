@@ -13,14 +13,14 @@ DATASET:
     CITYSCAPES: /root/autodl-tmp/jsrnet/datasets/cityscapes
     LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
 EXPERIMENT:
-  EPOCHS: 200
+  EPOCHS: 100
   EVAL_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
   NAME: 'masked_experiment_L_L_896'
   OUT_DIR: /root/autodl-tmp/jsrnet/records/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-#  RESUME_CHECKPOINT: /root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-latest.pth
-  RESUME_CHECKPOINT: null
+  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-latest.pth
+#  RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
 INPUT:

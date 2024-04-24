@@ -14,7 +14,7 @@ DATASET:
     LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
     OBSTACLE_TRACK: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
 EXPERIMENT:
-  EPOCHS: 200
+  EPOCHS: 100
   EVAL_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
   NAME: 'masked_experiment_LaF_RO'
@@ -54,7 +54,8 @@ MODEL:
     SKIP_CONN: false
     SKIP_CONN_DIM: 32
   SYNC_BN: false
-  PRETRAINED: "/root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth"
+#  PRETRAINED: "/root/autodl-tmp/records/masked_jsrnet/training/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth"
+  PRETRAINED: null
 OPTIMIZER:
   LR: 0.001
   LR_SCHEDULER: poly

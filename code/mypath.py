@@ -7,7 +7,7 @@ class Path(object):
         if dataset == 'LaF':
             return str(cfg.DATASET.PATH.LAF)     # folder that contains leftImg8bit/
         if dataset == 'OT':
-            return str(cfg.DATASET.PATH.ROAD_OBSTACLE)
+            return str(cfg.DATASET.PATH.OBSTACLE_TRACK)
         else:
             print('Dataset {} not available.'.format(dataset))
             raise NotImplementedError
