@@ -1,9 +1,24 @@
+from albumentations.pytorch import ToTensorV2
+
 from dataloaders.datasets import cityscapes, cityscapes_2class, lostandfound, obstacles_track
 from torch.utils.data import DataLoader
 from mypath import Path
+import albumentations as A
+
 
 # 定义一个函数来根据配置创建数据加载器
 def make_data_loader(cfg, **kwargs):
+
+    transform = A.Compose([
+        ToTensorV2()
+    ])
+
+    # Road Anomaly 21
+    transform_ra_21 = A.Compose([
+        A.Resize(height=720, width=1280),
+        ToTensorV2()
+    ])
+
     # 根据配置选择训练集，并实例化相应的数据集对象
     if cfg.DATASET.TRAIN == 'cityscapes':
         train_set = cityscapes.CityscapesSegmentation(cfg, root=Path.dataset_root_dir(cfg.DATASET.TRAIN), split='train')
@@ -22,7 +37,7 @@ def make_data_loader(cfg, **kwargs):
     elif cfg.DATASET.VAL == 'LaF':
         val_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
     elif cfg.DATASET.VAL == 'OT':
-        val_set = obstacles_track.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val')
+        val_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val', transforms=transform)
     else:
         raise NotImplementedError
 
@@ -34,7 +49,7 @@ def make_data_loader(cfg, **kwargs):
     elif cfg.DATASET.TEST == 'LaF':
         test_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     elif cfg.DATASET.TEST == 'OT':
-        test_set = obstacles_track.RoadObstacle21(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
+        test_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test',transforms=transform)
     else:
         raise NotImplementedError
 
@@ -44,3 +59,5 @@ def make_data_loader(cfg, **kwargs):
     test_loader = DataLoader(test_set, batch_size=cfg.INPUT.BATCH_SIZE_TEST, shuffle=False, **kwargs)
     # 返回训练、验证、测试的数据加载器以及训练数据集中的类别数量
     return train_loader, val_loader, test_loader, train_set.NUM_CLASSES
+
+
