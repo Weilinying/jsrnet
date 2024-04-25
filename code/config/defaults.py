@@ -175,7 +175,7 @@ _C.DATASET.PATH = CN()
 _C.DATASET.PATH.CITYSCAPES=r'D:\SoftwareEngineer\graduation_project\datasets\cityscapes'
 _C.DATASET.PATH.LAF=r'D:\SoftwareEngineer\graduation_project\datasets\lost_and_found'
 _C.DATASET.PATH.OBSTACLE_TRACK = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
-
+_C.DATASET.PATH.ROADANOMALY21 = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_AnomalyTrack'
 
 def get_cfg_defaults():
     """Get a yacs CfgNode object with default values for my_project."""

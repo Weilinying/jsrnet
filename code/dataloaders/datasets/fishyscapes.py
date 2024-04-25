@@ -14,7 +14,6 @@
 # metrics = fs.evaluate(estimator, data.take(2))
 # print('My method achieved {:.2f}% AP'.format(100 * metrics['AP']))
 
-# 明天直接用来测试能不能用，里面只有val
 
 import torch
 import os
@@ -42,17 +41,17 @@ class FishyscapesLAF(Dataset):
     - laf_images: contains the images taken from the Lost & Found Dataset
     """
 
-    def __init__(self, hparams, transforms):
+    def __init__(self, root, transforms):
         super().__init__()
 
-        self.hparams = hparams
+        self.root = root
         self.transforms = transforms
 
         self.images = []
         self.labels = []
 
         labels_path = os.path.join(
-            hparams.dataset_root, 'fishyscapes_lostandfound')
+            self.root, 'fishyscapes_lostandfound')
         label_files = os.listdir(labels_path)
         label_files.sort()
         for lbl in label_files:
@@ -60,7 +59,7 @@ class FishyscapesLAF(Dataset):
             self.labels.extend([os.path.join(labels_path, lbl)])
             img_name = lbl[5:-10] + 'leftImg8bit.png'
             self.images.extend(
-                [os.path.join(hparams.dataset_root, 'laf_images', img_name)])
+                [os.path.join(self.root, 'laf_images', img_name)])
 
         self.num_samples = len(self.images)
 

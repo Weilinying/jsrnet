@@ -1,6 +1,7 @@
 from albumentations.pytorch import ToTensorV2
+from torch.nn.utils import fusion
 
-from dataloaders.datasets import cityscapes, cityscapes_2class, lostandfound, obstacles_track
+from dataloaders.datasets import cityscapes, cityscapes_2class, lostandfound, obstacles_track, road_anomaly, fishyscapes
 from torch.utils.data import DataLoader
 from mypath import Path
 import albumentations as A
@@ -38,6 +39,10 @@ def make_data_loader(cfg, **kwargs):
         val_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val')
     elif cfg.DATASET.VAL == 'OT':
         val_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val', transforms=transform)
+    elif cfg.DATASET.VAL == 'RA':
+        val_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val',transforms=transform_ra_21)
+    elif cfg.DATASET.VAL == 'FS':
+        val_set = fishyscapes.FishyscapesLAF(root=Path.dataset_root_dir(cfg.DATASET.VAL), transforms=transform)
     else:
         raise NotImplementedError
 
@@ -49,7 +54,11 @@ def make_data_loader(cfg, **kwargs):
     elif cfg.DATASET.TEST == 'LaF':
         test_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     elif cfg.DATASET.TEST == 'OT':
-        test_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test',transforms=transform)
+        test_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val',transforms=transform)
+    elif cfg.DATASET.VAL == 'RA':
+        test_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val', transforms=transform_ra_21)
+    elif cfg.DATASET.VAL == 'FS':
+        val_set = fishyscapes.FishyscapesLAF(root=Path.dataset_root_dir(cfg.DATASET.VAL), transforms=transform)
     else:
         raise NotImplementedError
 
