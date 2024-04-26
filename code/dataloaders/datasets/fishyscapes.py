@@ -18,7 +18,7 @@
 import torch
 import os
 import cv2
-from torch.utils.data import Dataset
+from torch.utils import data
 from torchvision.transforms.functional import resize
 
 
@@ -33,7 +33,7 @@ def read_image(path):
     return img
 
 
-class FishyscapesLAF(Dataset):
+class FishyscapesLAF(data.Dataset):
     """
     The Dataset folder is assumed to follow the following structure. In the given root folder, there must be two
     sub-folders:

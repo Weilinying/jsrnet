@@ -10,7 +10,7 @@ from dataloaders import custom_transforms as tr
 from torch.utils import data
 
 
-class RoadAnomaly21(Dataset):
+class RoadAnomaly21(data.Dataset):
     """
     The given dataset_root entry in hparams is expected to be the root folder that contains the Anomaly Track data of
     the SegmentMeIfYouCan benchmark. The contents of that folder are 'images/', 'label_masks/', and 'LICENSE.txt'.
@@ -78,7 +78,9 @@ class RoadAnomaly21(Dataset):
             image = aug['image']
             label = aug['mask']
 
-        return image, label.type(torch.LongTensor)
+        sample = {'image': image, 'label': label.type(torch.LongTensor)}
+
+        return sample
 
     def __len__(self):
         return self.num_samples

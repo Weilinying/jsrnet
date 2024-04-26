@@ -147,11 +147,24 @@ class AnomalyEvaluator(Evaluator):
         fn = self.cmat[:, 1, 0]
         tn = self.cmat[:, 1, 1]
 
-        tp_rates = tp / (tp+fn) # = recall
-        fp_rates = fp / (fp+tn)
+        # 计算假阳性率前，检查分母是否为零
+        with np.errstate(divide='ignore', invalid='ignore'):
+            # 计算真阳性率（召回率）
+            tp_rates = np.divide(tp, (tp + fn))
+            tp_rates[tp + fn == 0] = np.nan  # 处理分母为零的情况
 
-        fp[(tp+fp) == 0] = 1e-9
-        precision = tp / (tp+fp) 
+            # 计算假阳性率
+            fp_rates = np.divide(fp, (fp + tn))
+            fp_rates[fp + tn == 0] = np.nan  # 处理分母为零的情况
+
+            # 避免在计算精确度时分母为零
+            fp[tp + fp == 0] = 1e-9  # 添加非零小值以防止除以零
+            precision = np.divide(tp, (tp + fp))  # 使用安全的除法
+
+        # tp_rates = tp / (tp+fn) # = recall
+        # fp_rates = fp / (fp+tn)
+        # fp[(tp+fp) == 0] = 1e-9
+        # precision = tp / (tp+fp)
 
         area_under_TPRFPR = np.trapz(tp_rates, fp_rates)
         AP = np.trapz(precision, tp_rates)

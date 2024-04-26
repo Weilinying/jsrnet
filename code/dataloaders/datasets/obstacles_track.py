@@ -78,7 +78,9 @@ class RoadObstacle21(data.Dataset):
             image = aug['image']
             label = aug['mask']
 
-        return image, label.type(torch.LongTensor)
+        sample = {'image': image, 'label': label.type(torch.LongTensor)}
+
+        return sample
 
     def __len__(self):
         return self.num_samples
@@ -113,7 +115,9 @@ if __name__ == '__main__':
                              transforms=transform)
 
     # Access the first item
-    image, label = dataset[0]
+    sample = dataset[0]  # Get the sample which is a dictionary
+    image = sample['image']
+    label = sample['label']
 
     # Print the shapes of the image and label
     print(f'Image shape: {image.shape}')

@@ -121,7 +121,7 @@ _C.MODEL.RECONSTRUCTION.SEGM_MODEL = r"D:\SoftwareEngineer\graduation_project\JS
 _C.MODEL.RECONSTRUCTION.SEGM_MODEL_NCLASS = 19  # 19 for cityscapes 分割模型的类别数
 _C.MODEL.RECONSTRUCTION.SKIP_CONN = False  # 是否使用跳跃连接
 _C.MODEL.RECONSTRUCTION.SKIP_CONN_DIM = 32  # 跳跃连接维度
-_C.MODEL.PRETRAINED = r"D:\SoftwareEngineer\graduation_project\JSRNet\checkpoint-best.pth"
+_C.MODEL.PRETRAINED = r"D:\SoftwareEngineer\graduation_project\JSRNet\records\experiments\masked_experiment_L_L_896\checkpoints\checkpoint-best.pth"
 
 # LOSS部分：损失函数相关配置
 _C.LOSS = CN()
@@ -142,15 +142,16 @@ _C.EXPERIMENT.START_EPOCH = 0
 _C.EXPERIMENT.USE_BALANCED_WEIGHTS = False
 _C.EXPERIMENT.RESUME_CHECKPOINT = None      # path to resume file (stored checkpoint)
 _C.EXPERIMENT.EVAL_INTERVAL = 1             # eval every X epoch
+_C.EXPERIMENT.TEST_INTERVAL = 5             # test every X epoch
 _C.EXPERIMENT.EVAL_METRIC = "AnomalyEvaluator" # available evaluation metrics from utils.metrics.py file  # 定义评估指标
 
 _C.INPUT = CN()
-_C.INPUT.BASE_SIZE = 512
-_C.INPUT.CROP_SIZE = 512
+_C.INPUT.BASE_SIZE = 896
+_C.INPUT.CROP_SIZE = 896
 _C.INPUT.NORM_MEAN = [0.485, 0.456, 0.406]  # mean for the input image to the net (image -> (0, 1) -> mean/std)
 _C.INPUT.NORM_STD = [0.229, 0.224, 0.225]   # std for the input image to the net (image -> (0, 1) -> mean/std)
-_C.INPUT.BATCH_SIZE_TRAIN = 8           # None = Auto set based on training dataset
-_C.INPUT.BATCH_SIZE_TEST = 8             # None = Auto set based on training batch size
+_C.INPUT.BATCH_SIZE_TRAIN = 2           # None = Auto set based on training dataset
+_C.INPUT.BATCH_SIZE_TEST = 2             # None = Auto set based on training batch size
 
 _C.AUG = CN()
 _C.AUG.RANDOM_CROP_PROB = 0.5               # prob that random polygon (anomaly) will be cut from image vs. random noise
@@ -167,8 +168,8 @@ _C.OPTIMIZER.NESTEROV = False
 
 _C.DATASET = CN()
 _C.DATASET.TRAIN = "LaF"      # choices: ['cityscapes'],
-_C.DATASET.VAL = "RO"                      # choices: ['cityscapes'],
-_C.DATASET.TEST = "RO"                     # choices: ['LaF'],
+_C.DATASET.VAL = "OT"                      # choices: ['cityscapes'],
+_C.DATASET.TEST = "OT"                     # choices: ['LaF'],
 _C.DATASET.FT = False                       # flag if we are finetuning
 
 _C.DATASET.PATH = CN()

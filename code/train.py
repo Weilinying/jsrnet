@@ -195,6 +195,28 @@ class Trainer(object):
             'best_pred': self.best_pred,
         }, is_best)
 
+    def test(self):
+        print("Loading test dataset...")
+        # 评估模式
+        self.model.eval()
+        self.evaluator.reset()
+        test_loss = 0.0
+        tbar = tqdm(self.test_loader, desc='\r')
+
+        with torch.no_grad():
+            for i, sample in enumerate(tbar):
+                image, target = sample['image'], sample['label']
+                if self.device:
+                    image, target = image.to(self.device), target.to(self.device)
+                image = image.float()  # 确保输入为浮点类型
+                output = self.model(image)
+                loss = self.criterion(output, target)
+                test_loss += loss.item()
+                tbar.set_description('Test loss: %.3f' % (test_loss / (i + 1)))
+                self.evaluator.add_batch(target, output)
+
+        results = self.evaluator.compute_stats()
+        print("Test results:", results)
 
 if __name__ == "__main__":
 
@@ -232,6 +254,7 @@ if __name__ == "__main__":
     if cfg.EXPERIMENT.NAME is None:
         cfg.EXPERIMENT.NAME = datetime.now().strftime(r'%Y%m%d_%H%M%S.%f').replace('.','_')  # 根据当前时间生成实验名称
 
+
     sys.stdout = Logger(os.path.join(cfg.EXPERIMENT.OUT_DIR, cfg.EXPERIMENT.NAME))  # 设置日志输出
     os.environ["CUDA_VISIBLE_DEVICES"] = ",".join([str(i) for i in cfg.SYSTEM.GPU_IDS])  # 设置CUDA可见设备
     
@@ -250,9 +273,15 @@ if __name__ == "__main__":
     print("Saving experiment to:", trainer.saver.experiment_dir)  # 输出实验保存路径
     print('Starting Epoch:', trainer.start_epoch)  # 输出开始的epoch
     print('Total Epoches:', trainer.epochs)  # 输出总epoch数
+
+    # if cfg.DATASET.TEST:
+    #     print("Starting test with pretrained model...")
+    #     trainer.test()
     for epoch in range(trainer.start_epoch, trainer.epochs):
         trainer.training(epoch)  # 训练
         if (epoch % cfg.EXPERIMENT.EVAL_INTERVAL) == (cfg.EXPERIMENT.EVAL_INTERVAL - 1):
             trainer.validation(epoch)  # 验证
+
+
     trainer.writer.close()  # 关闭tensorboard写入器
 

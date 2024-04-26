@@ -249,7 +249,7 @@ class DeepLabReconFuseSimpleTrainModified(DeepLabCommon):
 
         with torch.no_grad():
             # 生成多个尺度的掩码，模拟不同大小的异常
-            k_value = [16, 32, 64, 128]
+            k_value = [32, 64, 128, 224]
             Ms_generator = gen_disjoint_mask(k_value, 3, cfg.INPUT.CROP_SIZE, cfg.INPUT.CROP_SIZE)
             Ms = next(Ms_generator)
             device = torch.device("cuda:0" if cfg.SYSTEM.USE_GPU else "cpu")

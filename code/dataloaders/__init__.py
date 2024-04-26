@@ -11,14 +11,10 @@ import albumentations as A
 def make_data_loader(cfg, **kwargs):
 
     transform = A.Compose([
+        A.Resize(height=cfg.INPUT.CROP_SIZE, width=cfg.INPUT.CROP_SIZE),
         ToTensorV2()
     ])
 
-    # Road Anomaly 21
-    transform_ra_21 = A.Compose([
-        A.Resize(height=720, width=1280),
-        ToTensorV2()
-    ])
 
     # 根据配置选择训练集，并实例化相应的数据集对象
     if cfg.DATASET.TRAIN == 'cityscapes':
@@ -40,7 +36,7 @@ def make_data_loader(cfg, **kwargs):
     elif cfg.DATASET.VAL == 'OT':
         val_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val', transforms=transform)
     elif cfg.DATASET.VAL == 'RA':
-        val_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val',transforms=transform_ra_21)
+        val_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val',transforms=transform)
     elif cfg.DATASET.VAL == 'FS':
         val_set = fishyscapes.FishyscapesLAF(root=Path.dataset_root_dir(cfg.DATASET.VAL), transforms=transform)
     else:
@@ -54,11 +50,11 @@ def make_data_loader(cfg, **kwargs):
     elif cfg.DATASET.TEST == 'LaF':
         test_set = lostandfound.LostAndFound(cfg, root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test')
     elif cfg.DATASET.TEST == 'OT':
-        test_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.TEST), split='val',transforms=transform)
-    elif cfg.DATASET.VAL == 'RA':
-        test_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='val', transforms=transform_ra_21)
-    elif cfg.DATASET.VAL == 'FS':
-        val_set = fishyscapes.FishyscapesLAF(root=Path.dataset_root_dir(cfg.DATASET.VAL), transforms=transform)
+        test_set = obstacles_track.RoadObstacle21(root=Path.dataset_root_dir(cfg.DATASET.TEST), split='test', transforms=transform)
+    elif cfg.DATASET.TEST == 'RA':
+        test_set = road_anomaly.RoadAnomaly21(root=Path.dataset_root_dir(cfg.DATASET.VAL), split='test', transforms=transform)
+    elif cfg.DATASET.TEST == 'FS':
+        test_set = fishyscapes.FishyscapesLAF(root=Path.dataset_root_dir(cfg.DATASET.VAL), transforms=transform)
     else:
         raise NotImplementedError
 

@@ -26,6 +26,9 @@ def gen_disjoint_mask(k_list, disjoint_n, dim_h, dim_w):
                 mask_i = ndimage.zoom(mask_i, zoom=cell_k, order=0)  # 放大遮罩以匹配原始图像大小
                 masks.append(mask_i)
 
+        # for mask in masks:
+        #     print(mask.shape)
+
         masks = np.array(masks, dtype=np.float32)  # 转换为NumPy数组
         yield masks
 
