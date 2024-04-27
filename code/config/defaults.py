@@ -113,7 +113,7 @@ _C.MODEL.FREEZE_BN = False
 _C.MODEL.RECONSTRUCTION = CN()
 _C.MODEL.RECONSTRUCTION.LATENT_DIM = 4      # number of channels of latent space
 # 分割模型路径
-#_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210209_112729_903607/checkpoints/checkpoint-best.pth" #resnet 51.6
+# _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210209_112729_903607/checkpoints/checkpoint-best.pth" #resnet 51.6
 # _C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210302_234038_642070/checkpoints/checkpoint-best.pth"  #resnet 66.1
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210306_213340_619898/checkpoints/checkpoint-best.pth" #mobilenet 61.2
 #_C.MODEL.RECONSTRUCTION.SEGM_MODEL = "/mnt/datagrid/personal/vojirtom/sod/mcsegm/20210306_214758_686017/checkpoints/checkpoint-best.pth" #xception 50.3
@@ -177,6 +177,7 @@ _C.DATASET.PATH.CITYSCAPES=r'D:\SoftwareEngineer\graduation_project\datasets\cit
 _C.DATASET.PATH.LAF=r'D:\SoftwareEngineer\graduation_project\datasets\lost_and_found'
 _C.DATASET.PATH.OBSTACLE_TRACK = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_ObstacleTrack'
 _C.DATASET.PATH.ROADANOMALY21 = r'D:\SoftwareEngineer\graduation_project\datasets\dataset_AnomalyTrack'
+_C.DATASET.PATH.ROADANOMALY = r'D:\SoftwareEngineer\graduation_project\datasets\RoadAnomaly'
 
 def get_cfg_defaults():
     """Get a yacs CfgNode object with default values for my_project."""

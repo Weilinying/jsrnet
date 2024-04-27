@@ -45,7 +45,7 @@ LOSS:
   SIZE_AVG: true
   TYPE: ReconstructionAnomalyLossFuseTrainAux
 MODEL:
-  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth
+  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896_2/checkpoints/checkpoint-best.pth
   BACKBONE: resnet
   FREEZE_BN: false
   NET: DeepLabReconFuseSimpleTrainModified

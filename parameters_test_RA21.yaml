@@ -5,29 +5,31 @@ AUG:
   SCALE_MAX: 2.0
   SCALE_MIN: 0.5
 DATASET:
-  FT: True
-  TEST: LaF             # 'options:OT, RA, FS'
+  FT: false
+  TEST: RA21            # 'options:OT, RA, FS'
   TRAIN: LaF
-  VAL: LaF              # 'options:OT, RA, FS'
+  VAL: OT              # 'options:OT, RA, FS'
   PATH:
     CITYSCAPES: /root/autodl-tmp/jsrnet/datasets/cityscapes
     LAF: /root/autodl-tmp/jsrnet/datasets/lost_and_found
+    OBSTACLE_TRACK: /root/autodl-tmp/jsrnet/datasets/dataset_ObstacleTrack
+    ROADANOMALY21: /root/autodl-tmp/jsrnet/datasets/dataset_AnomalyTrack
 EXPERIMENT:
   EPOCHS: 100
   EVAL_INTERVAL: 1
   TEST_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
-  NAME: 'masked_experiment_L_L_896_2'
+  NAME: 'masked_experiment_test_RA'
   OUT_DIR: /root/autodl-tmp/jsrnet/records/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896_2/checkpoints/checkpoint-latest.pth
-#  RESUME_CHECKPOINT: null
+#  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-latest.pth
+  RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
 INPUT:
   BASE_SIZE: 896
-  BATCH_SIZE_TEST: 2
-  BATCH_SIZE_TRAIN: 2
+  BATCH_SIZE_TEST: 4
+  BATCH_SIZE_TRAIN: 4
   CROP_SIZE: 896
   NORM_MEAN:
   - 0.485
@@ -43,8 +45,7 @@ LOSS:
   SIZE_AVG: true
   TYPE: ReconstructionAnomalyLossFuseTrainAux
 MODEL:
-  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth
-#  PRETRAINED: null
+  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896_2/checkpoints/checkpoint-best.pth
   BACKBONE: resnet
   FREEZE_BN: false
   NET: DeepLabReconFuseSimpleTrainModified

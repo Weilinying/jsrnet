@@ -247,7 +247,16 @@ class DeepLabReconFuseSimpleTrainModified(DeepLabCommon):
             x = self.deeplab.decoder(x, low_level_feat)
             segmentation = F.interpolate(x, size=input.size()[2:], mode='bilinear', align_corners=True)
 
-        with torch.no_grad():
+            # 应用 W1(L)，W2(L)，W3(L)
+            softmax_output = F.softmax(segmentation, dim=1)
+            W1 = softmax_output.max(dim=1, keepdim=True)[0]  # 保持[batch_size, 1, H, W]的形状
+            W2 = torch.sigmoid((-(softmax_output * torch.log(softmax_output + 1e-5)).sum(dim=1, keepdim=True)))  # 同上
+            W3 = softmax_output.argmax(dim=1, keepdim=True).float()  # 同上
+
+            # 结合 W1, W2, 和 W3
+            combined = W1 + W2 + W3
+
+        # with torch.no_grad():
             # 生成多个尺度的掩码，模拟不同大小的异常
             k_value = [32, 64, 128, 224]
             Ms_generator = gen_disjoint_mask(k_value, 3, cfg.INPUT.CROP_SIZE, cfg.INPUT.CROP_SIZE)
@@ -263,11 +272,20 @@ class DeepLabReconFuseSimpleTrainModified(DeepLabCommon):
                 encoder_feats.append(encoder_feat)
                 low_level_feats.append(low_level_feat)
 
-        recon, recon_loss = self.recon_dec(Ms, input, inputs, encoder_feats, low_level_feats)
+            # 获取重构误差和重构图像
+            recon, recon_loss = self.recon_dec(Ms, input, inputs, encoder_feats, low_level_feats)
 
-        x = self.fuse_conv(torch.cat([segmentation, recon_loss], dim=1))
+            # 将修改后的输出逻辑和重构误差图进行融合
+            fusion_input = torch.cat([combined, recon_loss], dim=1)
 
-        perpixel = F.softmax(x, dim=1)[:, 0:1, ...]
+        # 使用融合后的结果进行后续处理
+        fused_output = self.fuse_conv(fusion_input)
+
+        # 计算每个像素的异常分数
+        perpixel = F.softmax(fused_output, dim=1)[:, 0:1, ...]
+        # x = self.fuse_conv(torch.cat([segmentation, recon_loss], dim=1))
+        #
+        # perpixel = F.softmax(x, dim=1)[:, 0:1, ...]
 
         return {"input": input,
                 "segmentation": segmentation,

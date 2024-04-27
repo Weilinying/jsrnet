@@ -17,11 +17,11 @@ EXPERIMENT:
   EVAL_INTERVAL: 1
   TEST_INTERVAL: 1
   EVAL_METRIC: AnomalyEvaluator
-  NAME: 'masked_experiment_L_L_896_2'
+  NAME: 'masked_experiment_L_L_896_3'
   OUT_DIR: /root/autodl-tmp/jsrnet/records/experiments
 #  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/checkpoints/checkpoint-best.pth
-  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896_2/checkpoints/checkpoint-latest.pth
-#  RESUME_CHECKPOINT: null
+#  RESUME_CHECKPOINT: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896_2/checkpoints/checkpoint-latest.pth
+  RESUME_CHECKPOINT: null
   START_EPOCH: 0
   USE_BALANCED_WEIGHTS: false
 INPUT:
@@ -43,8 +43,8 @@ LOSS:
   SIZE_AVG: true
   TYPE: ReconstructionAnomalyLossFuseTrainAux
 MODEL:
-  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth
-#  PRETRAINED: null
+#  PRETRAINED: /root/autodl-tmp/jsrnet/records/experiments/masked_experiment_L_L_896/checkpoints/checkpoint-best.pth
+  PRETRAINED: null
   BACKBONE: resnet
   FREEZE_BN: false
   NET: DeepLabReconFuseSimpleTrainModified

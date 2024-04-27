@@ -169,8 +169,28 @@ class AnomalyEvaluator(Evaluator):
         area_under_TPRFPR = np.trapz(tp_rates, fp_rates)
         AP = np.trapz(precision, tp_rates)
 
-        f = interp1d(tp_rates, fp_rates, kind="linear")
-        FPRat95 = f(0.95)
+        # f = interp1d(tp_rates, fp_rates, kind="linear")
+        # FPRat95 = f(0.95)
+
+        # 确保 tp_rates 和 fp_rates 没有 nan 值
+        valid_mask = ~np.isnan(tp_rates) & ~np.isnan(fp_rates)
+        if np.any(valid_mask):
+            tp_rates_valid = tp_rates[valid_mask]
+            fp_rates_valid = fp_rates[valid_mask]
+
+            if len(tp_rates_valid) > 1:
+                f = interp1d(tp_rates_valid, fp_rates_valid, fill_value="extrapolate")
+                try:
+                    FPRat95 = f(0.95)
+                except ValueError:
+                    FPRat95 = np.nan
+            else:
+                FPRat95 = np.nan
+
+            if np.isnan(FPRat95):
+                FPRat95 = max(fp_rates_valid) if len(fp_rates_valid) > 0 else np.nan
+        else:
+            FPRat95 = np.nan
 
         writer = kwargs.get("writer", None)
         if writer is not None: 
